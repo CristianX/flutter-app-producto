@@ -2,6 +2,9 @@
 
 A new Flutter project.
 
+## Dependencias
+- Rx Dart `rxdart: ^0.24.1`
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
