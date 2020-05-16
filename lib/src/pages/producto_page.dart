@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
 
-class ProductoPage extends StatelessWidget {
+// Utils
+import 'package:formvalidation/src/utils/utils.dart' as utils;
+
+// Para trabajar con forms se lo debe hacer con un StatefulWidget
+class ProductoPage extends StatefulWidget {
+
+  // Key del formulario para controlar el estado del Form
+  @override
+  _ProductoPageState createState() => _ProductoPageState();
+}
+
+class _ProductoPageState extends State<ProductoPage> {
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +34,8 @@ class ProductoPage extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(15.0),
           child: Form(
+            // Identificador único de este formulario (key)
+            key: formKey,
             child: Column(
               children: <Widget>[
                 _crearNombre(),
@@ -41,6 +56,14 @@ class ProductoPage extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Producto'
       ),
+      // Validación del Form
+      validator: ( value ) {
+        if( value.length < 3 ) {
+          return 'Ingrese el nombre del producto';
+        } else {
+          return null;
+        }
+      },
     );
   }
 
@@ -51,6 +74,16 @@ class ProductoPage extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Precio'
       ),
+      // Validación del Form
+      validator: ( value ) {
+
+        if( utils.esNumero(value) ) {
+          return null;
+        } else {
+          return 'Solo números';
+        }
+
+      },
     );
   }
 
@@ -63,7 +96,15 @@ class ProductoPage extends StatelessWidget {
       textColor: Colors.white,
       label: Text('Guardar'),
       icon: Icon(Icons.save),
-      onPressed: () {}
+      onPressed: _submit
     );
+  }
+
+  void _submit() {
+
+    if( !formKey.currentState.validate() ) return;
+
+    print( 'Todo OK!' );
+
   }
 }
