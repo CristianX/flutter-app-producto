@@ -148,7 +148,8 @@ class LoginPage extends StatelessWidget {
                 hintText: 'ejemplo@correo.com',
                 labelText: 'Correo electrónico',
                 // Capturando la data que cambia e imprimiendola
-                counterText: snapshot.data
+                counterText: snapshot.data,
+                errorText: snapshot.error
               ),
               // Detectar cuando ese cambio sucede para ejecutar una acción
               onChanged: bloc.changeEmail,
@@ -177,6 +178,7 @@ class LoginPage extends StatelessWidget {
               labelText: 'Contraseña',
               // Capturando data e imprimiendola
               counterText: snapshot.data,
+              errorText: snapshot.error
             ),
             onChanged: bloc.changePassword,
           ),
