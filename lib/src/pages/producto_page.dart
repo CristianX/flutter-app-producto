@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 // Modelo
 import 'package:formvalidation/src/models/producto_model.dart';
 
+// Provider
+import 'package:formvalidation/src/providers/productos_provider.dart';
+
 // Utils
 import 'package:formvalidation/src/utils/utils.dart' as utils;
 
@@ -19,6 +22,9 @@ class _ProductoPageState extends State<ProductoPage> {
 
   // Llamada al modelo
   ProductoModel producto = new ProductoModel();
+
+  // Llamando producto provider
+    final productoProvider = new ProductosProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +144,10 @@ class _ProductoPageState extends State<ProductoPage> {
     print( producto.titulo );
     print( producto.valor );
     print( producto.disponible );
+
+    productoProvider.crearProducto( producto );
+
+    
 
   }
 }

@@ -4,6 +4,7 @@ A new Flutter project.
 
 ## Dependencias
 - Rx Dart `rxdart: ^0.24.1`
+- Peticiones http `http`
 
 ## Getting Started
 

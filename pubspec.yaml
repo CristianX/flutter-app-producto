@@ -30,6 +30,8 @@ dependencies:
   cupertino_icons: ^0.1.3
   #Rx Dart
   rxdart: ^0.24.1
+  # Peticiones http
+  http:
 
 dev_dependencies:
   flutter_test:
