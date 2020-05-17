@@ -13,6 +13,7 @@ class ProductosProvider {
 
   final String _url = 'https://flutter-varios-84be6.firebaseio.com';
 
+  // Post de productos
   Future<bool> crearProducto( ProductoModel producto ) async {
 
     // Para usar el Respt Api de firebase siempre hay que agregar el .json
@@ -28,4 +29,35 @@ class ProductosProvider {
 
   }
 
+  // Get de productos
+  Future<List<ProductoModel>> cargarProducto() async {
+
+    // Llamando url de producto
+    final url  = '$_url/productos.json';
+
+    // Realizando petición get
+    final resp = await http.get(url);
+
+    final Map<String, dynamic> decodedData = json.decode( resp.body );
+
+    // print( decodedData );
+
+    final List<ProductoModel> productos = new List();
+
+    if( decodedData == null ) return [];
+
+    decodedData.forEach((id, prod) {
+
+      final prodTemp = ProductoModel.fromJson(prod);
+      prodTemp.id = id;
+
+      productos.add( prodTemp );
+
+    });
+
+    // print(productos[0].id);
+
+    return productos;
+
+  }
 }
