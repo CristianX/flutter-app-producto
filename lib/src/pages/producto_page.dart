@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 
+// Modelo
+import 'package:formvalidation/src/models/producto_model.dart';
+
 // Utils
 import 'package:formvalidation/src/utils/utils.dart' as utils;
 
 // Para trabajar con forms se lo debe hacer con un StatefulWidget
 class ProductoPage extends StatefulWidget {
 
-  // Key del formulario para controlar el estado del Form
   @override
   _ProductoPageState createState() => _ProductoPageState();
 }
 
 class _ProductoPageState extends State<ProductoPage> {
+  // Key del formulario para controlar el estado del Form
   final formKey = GlobalKey<FormState>();
+
+  // Llamada al modelo
+  ProductoModel producto = new ProductoModel();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +46,7 @@ class _ProductoPageState extends State<ProductoPage> {
               children: <Widget>[
                 _crearNombre(),
                 _crearPrecio(),
+                _crearDisponible(),
                 _crearBoton()
               ],
             ),
@@ -52,6 +59,10 @@ class _ProductoPageState extends State<ProductoPage> {
   Widget _crearNombre() {
     // TextFormField trabaja directamente con un Form (Formulario)
     return TextFormField(
+      // Valores iniciales desde el modelo
+      initialValue: producto.titulo,
+      // Se ejecuta después de haber validado el campo
+      onSaved: (value) => producto.titulo = value,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Producto'
@@ -69,6 +80,10 @@ class _ProductoPageState extends State<ProductoPage> {
 
   Widget _crearPrecio() {
     return TextFormField(
+      // Valores iniciales desde el modelo
+      initialValue: producto.valor.toString(),
+      // Se ejecuta después de haber validado el campo
+      onSaved: (value) => producto.valor = double.parse(value),
       // Para aplicar punto decimal en el campo de texto numberWithOptions
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
@@ -100,11 +115,29 @@ class _ProductoPageState extends State<ProductoPage> {
     );
   }
 
+
+  Widget _crearDisponible() {
+    return SwitchListTile(
+      value: producto.disponible,
+      title: Text('Disponible'),
+      activeColor: Colors.deepPurple,
+      onChanged: (value) => setState((){
+        producto.disponible = value;
+      }),
+    );
+  }
+
   void _submit() {
 
+    // Validando el formulario
     if( !formKey.currentState.validate() ) return;
 
-    print( 'Todo OK!' );
+    // Se debe ejecutar despúes de habee validado el formulario
+    formKey.currentState.save();
+    
+    print( producto.titulo );
+    print( producto.valor );
+    print( producto.disponible );
 
   }
 }
