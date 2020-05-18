@@ -155,7 +155,7 @@ class _ProductoPageState extends State<ProductoPage> {
     );
   }
 
-  void _submit() {
+  void _submit() async {
 
     // Validando el formulario
     if( !formKey.currentState.validate() ) return;
@@ -168,6 +168,11 @@ class _ProductoPageState extends State<ProductoPage> {
     // print( producto.disponible );
 
     setState(() {_guardando = true;});
+
+    // Al momento que se detecte que se va a subir una imagen hay que deshabilitar el boton
+    if( foto != null ) {
+      producto.fotoUrl = await productoProvider.subirImagen(foto);
+    }
 
     // Diferenciando si es una carga o acualización de datos
     if( producto.id == null ){
