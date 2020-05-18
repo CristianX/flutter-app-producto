@@ -204,7 +204,12 @@ class _ProductoPageState extends State<ProductoPage> {
   Widget _mostrarFoto() {
 
     if( producto.fotoUrl != null ) {
-      return Container();
+      return FadeInImage(
+        image: NetworkImage( producto.fotoUrl ),
+        placeholder: AssetImage('assets/jar-loading.gif'),
+        height: 300.0,
+        fit: BoxFit.contain
+      );
     } else {
       return Image(
         // ? si la foto tiene algo regresa el path ?? si la foto no tiene nada regresa la imagen
@@ -246,7 +251,8 @@ class _ProductoPageState extends State<ProductoPage> {
 
     // Si cancela o no selecciona niguna foto
     if( foto != null ) {
-      // limpieza
+      // limpieza para redibujar foto seleccionada
+      producto.fotoUrl = null;
     }
 
     setState(() {});
