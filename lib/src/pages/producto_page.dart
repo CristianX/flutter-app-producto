@@ -55,11 +55,11 @@ class _ProductoPageState extends State<ProductoPage> {
         actions: <Widget>[
           IconButton(
             icon: Icon( Icons.photo_size_select_actual ), 
-            onPressed: _seleccionarFoto
+            onPressed: () => _procesarImagen( ImageSource.gallery )
           ),
           IconButton(
             icon: Icon( Icons.camera_alt ), 
-            onPressed: _tomarFoto
+            onPressed: () => _procesarImagen( ImageSource.camera )
           )
         ],
       ),
@@ -212,10 +212,31 @@ class _ProductoPageState extends State<ProductoPage> {
   }
 
 
-  void _seleccionarFoto() async {
+  // void _seleccionarFoto() async {
+
+  //   foto = await ImagePicker.pickImage(
+  //     source: ImageSource.gallery
+  //   );
+
+  //   // Si cancela o no selecciona niguna foto
+  //   if( foto != null ) {
+  //     // limpieza
+  //   }
+
+  //   setState(() {});
+
+  // }
+
+  // void _tomarFoto() async {
+
+  //   _procesarImagen( ImageSource.camera );
+
+  // }
+  // Optimización de código
+  void _procesarImagen( ImageSource tipo ) async {
 
     foto = await ImagePicker.pickImage(
-      source: ImageSource.gallery
+      source: tipo
     );
 
     // Si cancela o no selecciona niguna foto
@@ -225,8 +246,7 @@ class _ProductoPageState extends State<ProductoPage> {
 
     setState(() {});
 
+
   }
 
-  void _tomarFoto() {
-  }
 }
