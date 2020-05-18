@@ -1,5 +1,6 @@
 
 
+
 // http
 import 'package:http/http.dart' as http;
 
@@ -8,6 +9,15 @@ import 'dart:convert';
 
 // Modelos
 import 'package:formvalidation/src/models/producto_model.dart';
+
+// Para el tipo de dato File
+import 'dart:io';
+
+// Mime type
+import 'package:mime_type/mime_type.dart';
+
+// Media Type
+import 'package:http_parser/http_parser.dart';
 
 class ProductosProvider {
 
@@ -91,5 +101,45 @@ class ProductosProvider {
     return true;
 
   }
+
+
+  // Servicio para la subida de imagenes a cloudinary
+  Future<String> subirImagen( File imagen ) async {
+
+    final url = Uri.parse('https://api.cloudinary.com/v1_1/djs1a6zt6/image/upload?upload_preset=yvojsi9x');
+    // Averiguando tipo de extensión
+    final mimeType =mime( imagen.path ).split('/');  // => image/jpg
+
+    final imageUploadRequest = http.MultipartRequest(
+      'POST',
+      url
+    );
+
+    // field es el campo body de file
+
+    final file = await http.MultipartFile.fromPath(
+      'file' , 
+      imagen.path,
+      contentType: MediaType( mimeType[0], mimeType[1] )
+    );
+
+    imageUploadRequest.files.add(file);
+
+    final streamResponse = await imageUploadRequest.send();
+    final resp = await http.Response.fromStream(streamResponse);
+
+    if( resp.statusCode != 200 && resp.statusCode != 201 ) {
+      print('Algo salio mal');
+      print( resp.body );
+      return null;
+    }
+
+    // Extrayendo campo secure_url de la respuesta
+    final respData = json.decode(resp.body);
+    print( respData);
+    return respData['secure_url'];
+
+  }
+
 
 }
