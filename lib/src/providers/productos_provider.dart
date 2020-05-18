@@ -13,7 +13,7 @@ class ProductosProvider {
 
   final String _url = 'https://flutter-varios-84be6.firebaseio.com';
 
-  // Post de productos
+  // POST de productos
   Future<bool> crearProducto( ProductoModel producto ) async {
 
     // Para usar el Respt Api de firebase siempre hay que agregar el .json
@@ -29,7 +29,7 @@ class ProductosProvider {
 
   }
 
-  // Get de productos
+  // GET de productos
   Future<List<ProductoModel>> cargarProducto() async {
 
     // Llamando url de producto
@@ -60,4 +60,19 @@ class ProductosProvider {
     return productos;
 
   }
+
+  // DELETE de productos
+  Future<int> borrarProducto( String id ) async {
+
+    final url = '$_url/productos/$id.json';
+
+    final resp = await http.delete(url);
+
+    // Regresa null si todo sale bien o una descripción si regresa un error
+    print( resp.body );
+
+    return 1;
+
+  }
+
 }
