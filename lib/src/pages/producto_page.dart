@@ -26,6 +26,13 @@ class _ProductoPageState extends State<ProductoPage> {
   // Llamando producto provider
     final productoProvider = new ProductosProvider();
 
+
+  // Referencia al scaffolt para utilizar snackbar
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  // Para controlar la doble presión en el boton de guardar
+  bool _guardando = false;
+
   @override
   Widget build(BuildContext context) {
 
@@ -37,6 +44,8 @@ class _ProductoPageState extends State<ProductoPage> {
     }
 
     return Scaffold(
+      // Para uso de snackbar
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text('Producto'),
         actions: <Widget>[
@@ -125,7 +134,7 @@ class _ProductoPageState extends State<ProductoPage> {
       textColor: Colors.white,
       label: Text('Guardar'),
       icon: Icon(Icons.save),
-      onPressed: _submit
+      onPressed: (_guardando) ? null : _submit
     );
   }
 
@@ -149,9 +158,11 @@ class _ProductoPageState extends State<ProductoPage> {
     // Se debe ejecutar despúes de habee validado el formulario
     formKey.currentState.save();
     
-    print( producto.titulo );
-    print( producto.valor );
-    print( producto.disponible );
+    // print( producto.titulo );
+    // print( producto.valor );
+    // print( producto.disponible );
+
+    setState(() {_guardando = true;});
 
     // Diferenciando si es una carga o acualización de datos
     if( producto.id == null ){
@@ -160,7 +171,23 @@ class _ProductoPageState extends State<ProductoPage> {
       productoProvider.editarProducto( producto );
     }
 
-    
+    // setState(() {_guardando = false;});
+    mostrarSnackbar('Registro guardado');
+
+    Navigator.pop(context);
 
   }
+
+  void mostrarSnackbar( String mensaje ) {
+
+    final snackbar = SnackBar(
+      content: Text( mensaje ),
+      duration: Duration( milliseconds: 1500 ),
+    );
+
+    // Mostrando snackbar con la referencia del Scaffold scanfflodKey
+    scaffoldKey.currentState.showSnackBar(snackbar);
+
+  }
+
 }
