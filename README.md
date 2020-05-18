@@ -5,6 +5,7 @@ A new Flutter project.
 ## Dependencias
 - Rx Dart `rxdart: ^0.24.1`
 - Peticiones http `http`
+- Imagen Picker `image_picker: ^0.6.6+1` <!-- Para selección de imagen de la galería y toma de fotografías -->
 
 ## Getting Started
 

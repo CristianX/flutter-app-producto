@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 // Modelo
@@ -9,6 +10,12 @@ import 'package:formvalidation/src/providers/productos_provider.dart';
 // Utils
 import 'package:formvalidation/src/utils/utils.dart' as utils;
 
+// Image Picker
+import 'package:image_picker/image_picker.dart';
+
+// Tipo de dato File
+import 'dart:io';
+
 // Para trabajar con forms se lo debe hacer con un StatefulWidget
 class ProductoPage extends StatefulWidget {
 
@@ -19,19 +26,16 @@ class ProductoPage extends StatefulWidget {
 class _ProductoPageState extends State<ProductoPage> {
   // Key del formulario para controlar el estado del Form
   final formKey = GlobalKey<FormState>();
-
   // Llamada al modelo
   ProductoModel producto = new ProductoModel();
-
   // Llamando producto provider
-    final productoProvider = new ProductosProvider();
-
-
+  final productoProvider = new ProductosProvider();
   // Referencia al scaffolt para utilizar snackbar
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
   // Para controlar la doble presión en el boton de guardar
   bool _guardando = false;
+  // Controlar instancia de ImagePicker
+  File foto;
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +55,11 @@ class _ProductoPageState extends State<ProductoPage> {
         actions: <Widget>[
           IconButton(
             icon: Icon( Icons.photo_size_select_actual ), 
-            onPressed: () {}
+            onPressed: _seleccionarFoto
           ),
           IconButton(
             icon: Icon( Icons.camera_alt ), 
-            onPressed: () {}
+            onPressed: _tomarFoto
           )
         ],
       ),
@@ -67,6 +71,7 @@ class _ProductoPageState extends State<ProductoPage> {
             key: formKey,
             child: Column(
               children: <Widget>[
+                _mostrarFoto(),
                 _crearNombre(),
                 _crearPrecio(),
                 _crearDisponible(),
@@ -190,4 +195,38 @@ class _ProductoPageState extends State<ProductoPage> {
 
   }
 
+
+  Widget _mostrarFoto() {
+
+    if( producto.fotoUrl != null ) {
+      return Container();
+    } else {
+      return Image(
+        // ? si la foto tiene algo regresa el path ?? si la foto no tiene nada regresa la imagen
+        image: AssetImage( foto?.path ?? 'assets/no-image.png'),
+        height: 300.0,
+        fit: BoxFit.cover,
+      );
+    }
+
+  }
+
+
+  void _seleccionarFoto() async {
+
+    foto = await ImagePicker.pickImage(
+      source: ImageSource.gallery
+    );
+
+    // Si cancela o no selecciona niguna foto
+    if( foto != null ) {
+      // limpieza
+    }
+
+    setState(() {});
+
+  }
+
+  void _tomarFoto() {
+  }
 }
