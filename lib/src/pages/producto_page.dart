@@ -28,6 +28,14 @@ class _ProductoPageState extends State<ProductoPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Tomando argumentos del navigator de home_page
+    final ProductoModel prodData = ModalRoute.of(context).settings.arguments;
+    // Evaluando si producto viene con algún elemento
+    if( prodData != null ) {
+      producto = prodData;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Producto'),
@@ -145,7 +153,12 @@ class _ProductoPageState extends State<ProductoPage> {
     print( producto.valor );
     print( producto.disponible );
 
-    productoProvider.crearProducto( producto );
+    // Diferenciando si es una carga o acualización de datos
+    if( producto.id == null ){
+      productoProvider.crearProducto( producto );
+    } else {
+      productoProvider.editarProducto( producto );
+    }
 
     
 

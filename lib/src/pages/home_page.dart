@@ -9,9 +9,15 @@ import 'package:formvalidation/src/models/producto_model.dart';
 // Productos provider
 import 'package:formvalidation/src/providers/productos_provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
 
 
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  
   // Llamando productos provider
   final productosProvider = new ProductosProvider();
 
@@ -52,7 +58,6 @@ class HomePage extends StatelessWidget {
 
   }
 
-  // Creación del item para mostrar productos de Firebase
   Widget _crearItem( BuildContext context, ProductoModel producto ) {
     // Dismissible para acción al mover el item a la derecha o izquierda
     return Dismissible(
@@ -67,7 +72,7 @@ class HomePage extends StatelessWidget {
       child: ListTile(
         title: Text('${ producto.titulo } - ${ producto.valor }'),
         subtitle: Text( producto.id ),
-        onTap: () => Navigator.pushNamed(context, 'producto'),
+        onTap: () => Navigator.pushNamed(context, 'producto', arguments: producto).then((value) => setState((){})),
       ),
     );
   }
@@ -76,8 +81,7 @@ class HomePage extends StatelessWidget {
     return FloatingActionButton(
       child: Icon(Icons.add),
       backgroundColor: Theme.of(context).primaryColor,
-      onPressed: () => Navigator.pushNamed(context, 'producto'),
+      onPressed: () => Navigator.pushNamed(context, 'producto').then((value) => setState((){})),
     );
   }
-
 }

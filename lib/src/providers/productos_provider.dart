@@ -29,6 +29,7 @@ class ProductosProvider {
 
   }
 
+
   // GET de productos
   Future<List<ProductoModel>> cargarProducto() async {
 
@@ -72,6 +73,22 @@ class ProductosProvider {
     print( resp.body );
 
     return 1;
+
+  }
+
+  // PUT de productos
+  Future<bool> editarProducto( ProductoModel producto ) async {
+
+    // Para usar el Respt Api de firebase siempre hay que agregar el .json
+    final url = '$_url/productos/${ producto.id }.json';
+
+    final resp = await http.put( url, body: productoModelToJson( producto ));
+
+    final decodedData = json.decode( resp.body );
+
+    print( decodedData );
+
+    return true;
 
   }
 

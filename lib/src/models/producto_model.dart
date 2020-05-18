@@ -32,7 +32,8 @@ class ProductoModel {
     );
 
     Map<String, dynamic> toJson() => {
-        "id"         : id,
+        // Para evitar mandar id al momento de editar el item
+        // "id"         : id,
         "titulo"     : titulo,
         "valor"      : valor,
         "disponible" : disponible,
