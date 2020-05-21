@@ -7,8 +7,13 @@ import 'package:http/http.dart' as http;
 // Certificate
 import 'package:formvalidation/src/certificate/certificate.dart';
 
+// Preferencias Usuario
+import 'package:formvalidation/src/preferencias_usuario/preferencias_usuario.dart';
 
 class UsuarioProvider {
+
+  // Instancia de preferencias de usuario
+  final _prefs = new PreferenciasUsuario();
 
   Future<Map<String, dynamic>> login( String email, String password ) async {
 
@@ -29,7 +34,8 @@ class UsuarioProvider {
 
     // Mostrando error de cuenta existente
     if( decodedResp.containsKey('idToken')) {
-      // TODO: salvar toque en el storage
+      // salvar toquen en el storage
+      _prefs.token = decodedResp['idToken'];
       return {'ok': true, 'token': decodedResp['idToken'] };
     } else {
       // Para apuntar un mapa dentro de otro mapa decodedResp['error']['message'] 
@@ -58,7 +64,8 @@ class UsuarioProvider {
 
     // Mostrando error de cuenta existente
     if( decodedResp.containsKey('idToken')) {
-      // TODO: salvar toque en el storage
+      // salvar toquen en el storage
+      _prefs.token = decodedResp['idToken'];
       return {'ok': true, 'token': decodedResp['idToken'] };
     } else {
       // Para apuntar un mapa dentro de otro mapa decodedResp['error']['message'] 

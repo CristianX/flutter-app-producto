@@ -7,6 +7,7 @@ A new Flutter project.
 - Peticiones http `http`
 - Imagen Picker `image_picker: ^0.6.6+1` <!-- Para selección de imagen de la galería y toma de fotografías -->
 - Mime Type `mime_type: ^0.3.0` <!-- Para averiguar extensión de archivo -->
+- Shared Preferences `shared_preferences:` <!-- Para guardar token en preferencias de usuario -->
 
 ## Getting Started
 

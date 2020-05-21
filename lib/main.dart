@@ -10,11 +10,24 @@ import 'package:formvalidation/src/pages/registro_page.dart';
 // Provider
 import 'package:formvalidation/src/bloc/provider.dart';
 
-void main() => runApp(MyApp());
+// Preferencias_usuario
+import 'package:formvalidation/src/preferencias_usuario/preferencias_usuario.dart';
+
+void main() async {
+
+  // Preferencias de usuario (guardar token)
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = new PreferenciasUsuario();
+  await prefs.initPrefs();
+
+  runApp(MyApp());
+}
  
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final prefs = new PreferenciasUsuario();
+    print( prefs.token );
     return Provider( 
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
