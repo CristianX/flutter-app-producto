@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 // Provider
 import 'package:formvalidation/src/bloc/provider.dart';
 
+// Provider personalizados (sin bloc)
+import 'package:formvalidation/src/providers/usuario_provider.dart';
+
 class RegistroPage extends StatelessWidget {
+
+  // Instancia de usuario provider
+  final usuarioProvider = new UsuarioProvider();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +19,7 @@ class RegistroPage extends StatelessWidget {
           _crearFondo( context ),
 
           // Es recomendable colocar campos de texto o formularios dentro de scroll por desplazamiento del teclado
-          _loginForm( context )
+          _registerForm( context )
 
         ],
       )
@@ -77,7 +84,7 @@ class RegistroPage extends StatelessWidget {
     );
   }
 
-  Widget _loginForm( BuildContext context ) {
+  Widget _registerForm( BuildContext context ) {
 
     // Llama el of que irá escalando la instancia del Provider en la clase Provider
     final bloc = Provider.of(context);
@@ -208,7 +215,7 @@ class RegistroPage extends StatelessWidget {
           elevation: 0.0,
           color: Colors.deepPurple,
           textColor: Colors.white,
-          onPressed: snapshot.hasData ? () => _login( context, bloc ) : null ,
+          onPressed: snapshot.hasData ? () => _register( context, bloc ) : null ,
         );
       },
     );
@@ -217,14 +224,16 @@ class RegistroPage extends StatelessWidget {
   }
 
   // Recuperando el último valor generado por los Streams
-  _login( BuildContext context, LoginBloc bloc ) {
+  _register( BuildContext context, LoginBloc bloc ) {
 
-    print('================');
-    print('Email: ${ bloc.email }');
-    print('Password: ${ bloc.password }');
-    print('================');
+    usuarioProvider.nuevoUsuario(bloc.email, bloc.password);
 
-    Navigator.pushReplacementNamed(context, 'home');
+    // print('================');
+    // print('Email: ${ bloc.email }');
+    // print('Password: ${ bloc.password }');
+    // print('================');
+
+    // Navigator.pushReplacementNamed(context, 'home');
 
   }
 
