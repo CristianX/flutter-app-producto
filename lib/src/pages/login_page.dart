@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 // Provider
 import 'package:formvalidation/src/bloc/provider.dart';
 
+// Providers personalizados
+import 'package:formvalidation/src/providers/usuario_provider.dart';
+
 class LoginPage extends StatelessWidget {
+
+  // Instancia de usuario provider
+  final usuarioProvider = new UsuarioProvider();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,12 +226,14 @@ class LoginPage extends StatelessWidget {
   // Recuperando el último valor generado por los Streams
   _login( BuildContext context, LoginBloc bloc ) {
 
-    print('================');
-    print('Email: ${ bloc.email }');
-    print('Password: ${ bloc.password }');
-    print('================');
+    usuarioProvider.login(bloc.email, bloc.password);
 
-    Navigator.pushReplacementNamed(context, 'home');
+    // print('================');
+    // print('Email: ${ bloc.email }');
+    // print('Password: ${ bloc.password }');
+    // print('================');
+
+    // Navigator.pushReplacementNamed(context, 'home');
 
   }
 
