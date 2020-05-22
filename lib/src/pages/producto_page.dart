@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 // Modelo
 import 'package:formvalidation/src/models/producto_model.dart';
 
-// Provider
-import 'package:formvalidation/src/providers/productos_provider.dart';
 
 // Utils
 import 'package:formvalidation/src/utils/utils.dart' as utils;
@@ -15,6 +13,9 @@ import 'package:image_picker/image_picker.dart';
 
 // Tipo de dato File
 import 'dart:io';
+
+// Provider
+import 'package:formvalidation/src/bloc/provider.dart';
 
 // Para trabajar con forms se lo debe hacer con un StatefulWidget
 class ProductoPage extends StatefulWidget {
@@ -29,7 +30,11 @@ class _ProductoPageState extends State<ProductoPage> {
   // Llamada al modelo
   ProductoModel producto = new ProductoModel();
   // Llamando producto provider
-  final productoProvider = new ProductosProvider();
+  // final productoProvider = new ProductosProvider();
+
+  // Llamando Bloc
+  ProductosBloc productosBloc;
+
   // Referencia al scaffolt para utilizar snackbar
   final scaffoldKey = GlobalKey<ScaffoldState>();
   // Para controlar la doble presión en el boton de guardar
@@ -39,6 +44,9 @@ class _ProductoPageState extends State<ProductoPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Inicializando bloc de productos
+    productosBloc = Provider.productosBloc(context);
 
     // Tomando argumentos del navigator de home_page
     final ProductoModel prodData = ModalRoute.of(context).settings.arguments;
@@ -171,14 +179,14 @@ class _ProductoPageState extends State<ProductoPage> {
 
     // Al momento que se detecte que se va a subir una imagen hay que deshabilitar el boton
     if( foto != null ) {
-      producto.fotoUrl = await productoProvider.subirImagen(foto);
+      producto.fotoUrl = await productosBloc.subirFoto(foto);
     }
 
     // Diferenciando si es una carga o acualización de datos
     if( producto.id == null ){
-      productoProvider.crearProducto( producto );
+      productosBloc.agregarProducto( producto );
     } else {
-      productoProvider.editarProducto( producto );
+      productosBloc.editarProducto( producto );
     }
 
     // setState(() {_guardando = false;});
