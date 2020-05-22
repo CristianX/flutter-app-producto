@@ -6,6 +6,9 @@ import 'package:formvalidation/src/bloc/provider.dart';
 // Provider personalizados (sin bloc)
 import 'package:formvalidation/src/providers/usuario_provider.dart';
 
+// Utils
+import 'package:formvalidation/src/utils/utils.dart' as utils;
+
 class RegistroPage extends StatelessWidget {
 
   // Instancia de usuario provider
@@ -224,9 +227,16 @@ class RegistroPage extends StatelessWidget {
   }
 
   // Recuperando el último valor generado por los Streams
-  _register( BuildContext context, LoginBloc bloc ) {
+  _register( BuildContext context, LoginBloc bloc ) async {
 
-    usuarioProvider.nuevoUsuario(bloc.email, bloc.password);
+    final info = await usuarioProvider.nuevoUsuario(bloc.email, bloc.password);
+
+    if( info['ok'] ) {
+
+      Navigator.pushReplacementNamed(context, 'home');
+    } else {
+      utils.mostrarAlerta( context, info['mensaje'] );
+    }
 
     // print('================');
     // print('Email: ${ bloc.email }');

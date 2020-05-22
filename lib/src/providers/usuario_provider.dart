@@ -39,7 +39,7 @@ class UsuarioProvider {
       return {'ok': true, 'token': decodedResp['idToken'] };
     } else {
       // Para apuntar un mapa dentro de otro mapa decodedResp['error']['message'] 
-      return {'ok': true, 'false': decodedResp['error']['message'] };
+      return {'ok': false, 'mensaje': decodedResp['error']['message'] };
     }
 
   }
@@ -69,7 +69,7 @@ class UsuarioProvider {
       return {'ok': true, 'token': decodedResp['idToken'] };
     } else {
       // Para apuntar un mapa dentro de otro mapa decodedResp['error']['message'] 
-      return {'ok': true, 'false': decodedResp['error']['message'] };
+      return {'ok': false, 'mensaje': decodedResp['error']['message'] };
     }
 
   }
