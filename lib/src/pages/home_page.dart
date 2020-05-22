@@ -6,8 +6,7 @@ import 'package:formvalidation/src/bloc/provider.dart';
 // Modelos
 import 'package:formvalidation/src/models/producto_model.dart';
 
-// Productos provider
-import 'package:formvalidation/src/providers/productos_provider.dart';
+
 
 class HomePage extends StatefulWidget {
 
@@ -19,13 +18,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   
   // Llamando productos provider
-  final productosProvider = new ProductosProvider();
+  // final productosProvider = new ProductosProvider();
 
   @override
   Widget build(BuildContext context) {
 
     // Llama el of que irá escalando la instancia del Provider en la clase Provider
-    final bloc = Provider.of(context);
+    // final bloc = Provider.of(context);
+
+    // Instancia bloc de productos
+    final productosBloc = Provider.productosBloc(context);
+    // Cargando productos
+    productosBloc.cargarProductos();
 
     
 
@@ -33,22 +37,22 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Home'),
       ),
-      body: _crearListado(),
+      body: _crearListado( productosBloc ),
       floatingActionButton: _crearBoton( context ),
       
     );
   }
 
-  Widget _crearListado() {
+  Widget _crearListado( ProductosBloc productosBloc ) {
 
-    return FutureBuilder(
-      future: productosProvider.cargarProducto(),
-      builder: (BuildContext context, AsyncSnapshot<List<ProductoModel>> snapshot) {
+    return StreamBuilder(
+      stream: productosBloc.productosStream ,
+      builder: (BuildContext context, AsyncSnapshot<List<ProductoModel>> snapshot){
         if( snapshot.hasData ) {
           final productos = snapshot.data;
           return ListView.builder(
             itemCount: productos.length,
-            itemBuilder: ( context, i ) => _crearItem( context, productos[i] ),
+            itemBuilder: ( context, i ) => _crearItem( context, productos[i], productosBloc ),
           );
         } else {
           return Center( child: CircularProgressIndicator() );
@@ -58,7 +62,7 @@ class _HomePageState extends State<HomePage> {
 
   }
 
-  Widget _crearItem( BuildContext context, ProductoModel producto ) {
+  Widget _crearItem( BuildContext context, ProductoModel producto, ProductosBloc productosBloc ) {
     // Dismissible para acción al mover el item a la derecha o izquierda
     return Dismissible(
       key: UniqueKey(),
@@ -67,7 +71,8 @@ class _HomePageState extends State<HomePage> {
       ),
       onDismissed: ( direccion ){
         // Llamando borrar producto
-        productosProvider.borrarProducto(producto.id);
+        // productosProvider.borrarProducto(producto.id);
+        productosBloc.borrarProducto(producto.id);
       },
       child: Card(
         child: Column(

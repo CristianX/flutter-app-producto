@@ -66,6 +66,10 @@ class ProductosProvider {
 
     if( decodedData == null ) return [];
 
+    // Validación si el token ya expiró
+    // TODO: validar expiración de token con un mensaje de error o algo para sacarlo de la pantalla home reemplazando el return[]
+    if( decodedData['error'] != null ) return [];
+
     decodedData.forEach((id, prod) {
 
       final prodTemp = ProductoModel.fromJson(prod);
