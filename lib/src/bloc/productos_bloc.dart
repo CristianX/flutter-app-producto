@@ -85,6 +85,8 @@ class ProductosBloc{
   // DELETE producto
   void borrarProducto( String id ) async {
 
+    // Para borrar el producto existe el deslizamiento (dispose) entonces no hace falta el _cargandoController (Flutter ya se encarga de hacer la animación de borrado aun que no se haya borrado totalmente)
+
     await _productosProvider.borrarProducto(id);
 
   }
