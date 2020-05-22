@@ -26,12 +26,13 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final prefs = new PreferenciasUsuario();
-    print( prefs.token );
+    // final prefs = new PreferenciasUsuario();
+    // print( prefs.token );
     return Provider( 
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material App',
+        // TODO: implementar el control si ya estoy autenticado o no ( proyecto de preferencias de usuario )
         initialRoute: 'login',
         routes: {
           'login' : ( BuildContext context ) => LoginPage(),

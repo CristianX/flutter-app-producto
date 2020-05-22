@@ -218,6 +218,7 @@ class RegistroPage extends StatelessWidget {
           elevation: 0.0,
           color: Colors.deepPurple,
           textColor: Colors.white,
+          // TODO: implementar bloquear boton cuando cargue datos( está implementando en la ventana de productos )
           onPressed: snapshot.hasData ? () => _register( context, bloc ) : null ,
         );
       },

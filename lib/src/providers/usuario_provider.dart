@@ -30,7 +30,7 @@ class UsuarioProvider {
 
     Map<String, dynamic> decodedResp = json.decode( resp.body );
 
-    print( decodedResp );
+    // print( decodedResp );
 
     // Mostrando error de cuenta existente
     if( decodedResp.containsKey('idToken')) {
@@ -60,7 +60,7 @@ class UsuarioProvider {
 
     Map<String, dynamic> decodedResp = json.decode( resp.body );
 
-    print( decodedResp );
+    // print( decodedResp );
 
     // Mostrando error de cuenta existente
     if( decodedResp.containsKey('idToken')) {

@@ -19,15 +19,24 @@ import 'package:mime_type/mime_type.dart';
 // Media Type
 import 'package:http_parser/http_parser.dart';
 
+// Preferencias de usuario
+import 'package:formvalidation/src/preferencias_usuario/preferencias_usuario.dart';
+
+// Certificados
+import 'package:formvalidation/src/certificate/certificate.dart';
+
 class ProductosProvider {
 
   final String _url = 'https://flutter-varios-84be6.firebaseio.com';
+
+  // Leyendo propiedades de usuario para corrección de "Permision denied"
+  final _prefsUsuario = new PreferenciasUsuario();
 
   // POST de productos
   Future<bool> crearProducto( ProductoModel producto ) async {
 
     // Para usar el Respt Api de firebase siempre hay que agregar el .json
-    final url = '$_url/productos.json';
+    final url = '$_url/productos.json?auth=${ _prefsUsuario.token }';
 
     final resp = await http.post( url, body: productoModelToJson( producto ));
 
@@ -44,7 +53,7 @@ class ProductosProvider {
   Future<List<ProductoModel>> cargarProducto() async {
 
     // Llamando url de producto
-    final url  = '$_url/productos.json';
+    final url  = '$_url/productos.json?auth=${ _prefsUsuario.token }';
 
     // Realizando petición get
     final resp = await http.get(url);
@@ -75,7 +84,7 @@ class ProductosProvider {
   // DELETE de productos
   Future<int> borrarProducto( String id ) async {
 
-    final url = '$_url/productos/$id.json';
+    final url = '$_url/productos/$id.json?auth=${ _prefsUsuario.token }';
 
     final resp = await http.delete(url);
 
@@ -90,7 +99,7 @@ class ProductosProvider {
   Future<bool> editarProducto( ProductoModel producto ) async {
 
     // Para usar el Respt Api de firebase siempre hay que agregar el .json
-    final url = '$_url/productos/${ producto.id }.json';
+    final url = '$_url/productos/${ producto.id }.json?auth=${ _prefsUsuario.token }';
 
     final resp = await http.put( url, body: productoModelToJson( producto ));
 
@@ -106,7 +115,7 @@ class ProductosProvider {
   // Servicio para la subida de imagenes a cloudinary
   Future<String> subirImagen( File imagen ) async {
 
-    final url = Uri.parse('https://api.cloudinary.com/v1_1/djs1a6zt6/image/upload?upload_preset=yvojsi9x');
+    final url = Uri.parse('https://api.cloudinary.com/v1_1/djs1a6zt6/image/upload?upload_preset=${ Certificate.uploadPreset }');
     // Averiguando tipo de extensión
     final mimeType =mime( imagen.path ).split('/');  // => image/jpg
 
